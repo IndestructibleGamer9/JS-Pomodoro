@@ -31,8 +31,9 @@
             <svg class="progress-circle" width="400" height="400" viewBox="0 0 400 400">
                 <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#9796f0" />
-                        <stop offset="100%" stop-color="#fbc7d4" />
+                        <stop offset="0%" stop-color="#AF40FF" />
+                        <stop offset="50%" stop-color="#5B42F3" />
+                        <stop offset="100%" stop-color="#00DDEB" />
                     </linearGradient>
                 </defs>
                 <circle class="circle-bg" cx="200" cy="200" r="180" />
@@ -41,7 +42,11 @@
             <div class="percentage" id="percent">0%</div>
             <div class="session" id="session">Focus</div>
         </div>
-
+        <div class="button-container">
+            <i data-feather="rotate-ccw" class="button-feather"></i>
+            <button class="button-64" role="button"><span class="text"><i data-feather="play"></i></span></button>
+            <i data-feather="arrow-right" class="button-feather"></i>
+        </div>
     </div>
 
     <script>
