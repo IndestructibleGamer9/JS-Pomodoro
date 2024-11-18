@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .progress-container {
+            width: 400px;
+            /* Doubled */
+            height: 400px;
+            /* Doubled */
+            position: relative;
+        }
+
+        .progress-circle {
+            transform: rotate(-90deg);
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 40;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 40;
+            stroke-linecap: round;
+            stroke-dasharray: 1130.97;
+            stroke-dashoffset: 1130.97;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 96px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress-container">
+        <svg class="progress-circle" width="400" height="400" viewBox="0 0 400 400">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#fbc7d4" />
+                    <stop offset="100%" stop-color="#9796f0" />
+                </linearGradient>
+            </defs>
+            <circle class="circle-bg" cx="200" cy="200" r="180" />
+            <circle class="circle-progress" id="circle" cx="200" cy="200" r="180" />
+        </svg>
+        <div class="percentage" id="percent">0%</div>
+    </div>
+
+    <script>
+        const circle = document.getElementById('circle');
+        const percentText = document.getElementById('percent');
+
+        function setProgress(value) {
+            // Calculate circumference based on radius (2 * PI * r)
+            const circumference = 2 * Math.PI * 180;  // Updated for new radius
+            const offset = circumference - (circumference * value) / 100;
+
+            // Force browser reflow
+            circle.getBoundingClientRect();
+
+            // Set initial state
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = circumference;
+
+            // Trigger animation
+            setTimeout(() => {
+                circle.style.strokeDashoffset = offset;
+            }, 50);
+
+            // Animate percentage
+            animateValue(0, value, 1500);
+        }
+
+        function animateValue(start, end, duration) {
+            let startTimestamp = null;
+
+            function step(timestamp) {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(start + (end - start) * easeProgress);
+
+                percentText.textContent = currentValue + '%';
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+
+            window.requestAnimationFrame(step);
+        }
+
+        // Start animation
+        setProgress(75);
+    </script>
+</body>
+
+</html>
