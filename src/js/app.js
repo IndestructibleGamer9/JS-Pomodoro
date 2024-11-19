@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const app = express();
+const sqlite3 = require("sqlite3").verbose();
 
 // Serve static files from src directory
 app.use("/styles", express.static(path.join(__dirname, "../styles")));
