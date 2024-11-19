@@ -146,35 +146,38 @@ body {
 
 .percentage {
   position: absolute;
-  top: 40%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  font-weight: 750;
-  transform: translate(-50%, -50%); /* Center the element */
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 90px;
+  font-weight: 750;
   color: #fff;
-  opacity: 0; /* Start with hidden */
-  animation: fadeInUp 1s ease-out forwards; /* Apply the animation */
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -00%); /* Start slightly above the center */
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%); /* End at the center */
-  }
+  opacity: 0;
 }
 
 .session {
   position: absolute;
   top: 65%;
   left: 50%;
-  font-weight: 750;
   transform: translate(-50%, -50%);
   font-size: 50px;
   color: #fff;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 70px));
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.animate {
+  animation: fadeInUp 1.5s ease-out forwards;
 }
 
 .button-container {

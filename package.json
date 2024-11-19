@@ -9,6 +9,7 @@
     "author": "Your Name",
     "license": "MIT",
     "dependencies": {
+        "echarts": "^5.5.1",
         "express": "^4.17.1",
         "jsdom": "^25.0.1",
         "sqlite3": "^5.1.7"
