@@ -68,6 +68,13 @@ app.get("/", async (request, response) => {
   );
 });
 
+app.get("/settings", async (request, response) => {
+  console.log("__ROUTES__ Settings page accessed");
+  response.send(
+    await fsp.readFile(path.join(__dirname, "../views/settings.html"), "utf8")
+  );
+});
+
 // Add this route before your other routes
 app.get("/api/time-entries", async (request, response) => {
   try {
