@@ -9,20 +9,14 @@
 }
 
 body {
-  background-color: #191919;
-}
-
-/* Navigation Styles */
-.navbar {
-  background: #1a1a1a;
-  font-family: "Nunito", sans-serif;
+  background-color: #0f1011;
 }
 
 .navbar {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  background: #2c2c2c;
+  background: #17181a;
   border-radius: 10px;
   padding: 1rem 0;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);

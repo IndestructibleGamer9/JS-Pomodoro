@@ -1,6 +1,7 @@
 // Initialize variables
 let weekChart = null;
 let timeEntries = null;
+const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function weekdata(entries) {
   if (!entries || !Array.isArray(entries)) {
@@ -71,14 +72,17 @@ function monthdata(entries) {
 function buildWeekChart(data) {
   if (!weekChart) return;
 
+  const reversedData = data.slice().reverse();
+
   const option = {
     backgroundColor: "transparent",
     title: {
       text: "Weekly Time Chart",
       textStyle: {
-        fontSize: 16,
+        fontSize: 25,
         fontWeight: "normal",
         color: "#e1e1e1",
+        left: "center",
       },
       top: 0,
     },
@@ -89,6 +93,9 @@ function buildWeekChart(data) {
             <strong>${params[0].name}</strong><br/>
             ${params[0].value} hours worked
           </div>`;
+      },
+      axisPointer: {
+        type: "shadow",
       },
       backgroundColor: "rgba(50, 50, 50, 0.95)",
       borderColor: "#555",
@@ -107,28 +114,29 @@ function buildWeekChart(data) {
       containLabel: true,
     },
     xAxis: {
-      data: data.map((item) => item.date),
+      data: reversedData.map((item) => weekday[new Date(item.date).getDay()]),
       axisLine: {
         lineStyle: { color: "#555" },
       },
       axisLabel: {
         color: "#e1e1e1",
-        fontSize: 12,
+        fontSize: 18,
+        fontWeight: "bold",
       },
     },
     yAxis: {
       type: "value",
-      name: "Hours",
+      name: " ",
       nameTextStyle: {
         color: "#e1e1e1",
-        fontSize: 12,
       },
       axisLine: {
         lineStyle: { color: "#555" },
       },
       axisLabel: {
         color: "#e1e1e1",
-        fontSize: 12,
+        fontSize: 16,
+        fontWeight: "bold",
       },
       splitLine: {
         lineStyle: {
@@ -140,14 +148,15 @@ function buildWeekChart(data) {
       {
         name: "Time",
         type: "bar",
-        data: data.map((item) => +(item.totalMinutes / 60).toFixed(2)),
+        data: reversedData.map((item) => +(item.totalMinutes / 60).toFixed(2)),
+        barWidth: "80%",
         itemStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             { offset: 0, color: "#AF40FF" },
             { offset: 0.5, color: "#5B42F3" },
             { offset: 1, color: "#00DDEB" },
           ]),
-          borderRadius: [4, 4, 0, 0],
+          borderRadius: [10, 10, 0, 0],
         },
         emphasis: {
           itemStyle: {
@@ -178,7 +187,7 @@ function buildMonthChart(data) {
     title: {
       text: "Monthly Time Distribution",
       textStyle: {
-        fontSize: 16,
+        fontSize: 25,
         fontWeight: "normal",
         color: "#e1e1e1",
       },
@@ -207,8 +216,8 @@ function buildMonthChart(data) {
       orient: "horizontal",
       left: "center",
       top: "8%",
-      itemWidth: 10,
-      itemHeight: 80,
+      itemWidth: 20,
+      itemHeight: 180,
       inRange: {
         color: ["rgba(22, 27, 34, 1)", "#AF40FF", "#5B42F3", "#00DDEB"],
       },
@@ -216,40 +225,34 @@ function buildMonthChart(data) {
         color: "#e1e1e1",
       },
     },
-    // In the buildMonthChart function, update the calendar settings:
     calendar: {
-      top: "120", // Increased from 100
-      left: "50", // Increased from 30
-      right: "50", // Increased from 30
-      bottom: "40", // Added bottom margin
-      cellSize: ["auto", 25], // Slightly reduced from 30
+      top: "120",
+      left: "50",
+      right: "50",
+      bottom: "40",
+      cellSize: ["auto", 20],
       range: getCalendarRange(),
       itemStyle: {
         borderWidth: 2,
         borderColor: "#333",
-        borderRadius: 2,
+        borderRadius: 10,
         color: "#1a1a1a",
       },
       yearLabel: { show: false },
       dayLabel: {
         nameMap: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         color: "#e1e1e1",
-        fontSize: 12,
-        margin: 5, // Added margin
+        fontSize: 16,
+        margin: 5,
       },
       monthLabel: {
         show: true,
         color: "#e1e1e1",
-        fontSize: 12,
-        margin: 8, // Added margin
+        fontSize: 18,
+        margin: 8,
       },
       splitLine: {
-        show: true,
-        lineStyle: {
-          color: "#333",
-          width: 1.5,
-          type: "solid",
-        },
+        show: false,
       },
     },
     series: [
@@ -261,7 +264,7 @@ function buildMonthChart(data) {
         animationDuration: 1000,
         animationEasing: "cubicOut",
         itemStyle: {
-          borderRadius: 2,
+          borderRadius: 10,
           borderWidth: 2,
           borderColor: "#333",
           emphasis: {
