@@ -29,7 +29,22 @@ db.run(
     if (err) {
       console.error(err.message);
     }
-    console.log("__DB__ Table accessed successfully");
+    console.log("__DB__ TimeEntry Table accessed successfully");
+  }
+);
+
+db.run(
+  `CREATE TABLE IF NOT EXISTS Settings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  focus_time INTEGER NOT NULL,
+  rest_time INTEGER NOT NULL,
+  Break_time INTEGER NOT NULL
+  )`,
+  (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log("__DB__ settings Table accessed successfully");
   }
 );
 
@@ -54,6 +69,35 @@ function getTimeEntries() {
       resolve(rows);
     });
   });
+}
+
+function getSettings() {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT * FROM Settings`, (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+        return;
+      }
+      console.log("__DB__ Setting table accessed successfully");
+      resolve(rows);
+    });
+  });
+}
+
+function changeSettings(focus_time, rest_time, break_time) {
+  db.run(
+    "UPDATE SETTINGS SET focus_time = ?, rest_time = ?, break_time = ? WHERE id=1",
+    [focus_time, rest_time, break_time],
+    (err) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+        return;
+      }
+      console.log("__DB__ Settings updated successfully");
+    }
+  );
 }
 
 // Serve static files from src directory
@@ -114,6 +158,13 @@ app.post("/save-datetime", (req, res) => {
       console.log("Data inserted successfully");
     }
   );
+});
+
+app.post("/save-settings", (req, res) => {
+  const { focus_time, rest_time, break_time } = req.body;
+  console.log(req.body);
+  res.sendStatus(200);
+  changeSettings(focus_time, rest_time, break_time);
 });
 
 app.listen(process.env.PORT || 3000, () =>
